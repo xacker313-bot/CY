@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edu Code Learn</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    display: flex;
+    background: #0f172a;
+    color: white;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #020617;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    color: #38bdf8;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    padding: 12px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.sidebar ul li:hover {
+    background: #1e293b;
+}
+
+/* Main content */
+.main {
+    flex: 1;
+    padding: 30px;
+}
+
+/* Top bar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.search {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+}
+
+/* Course cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    background: #334155;
+}
+
+.card img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+/* Course Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    animation: none;
+}
+
+.modal-content h3 {
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    background: #38bdf8;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Login Box */
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15,23,42,0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.login-box {
+    background: #1e293b;
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #38bdf8;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #38bdf8;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #0ea5e9;
+}
+
+.login-box .links {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-box .links a {
+    color: #38bdf8;
+    text-decoration: none;
+}
+
+.login-box .links a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Edu CodeLearn</h2>
+    <ul>
+        <li onclick="showSection('courses')">Courses</li>
+        <li onclick="openLogin()">Login</li>
+    </ul>
+</div>
+
+<!-- Main content -->
+<div class="main">
+    <div class="topbar">
+        <h1>Courses</h1>
+        <input class="search" placeholder="Search courses...">
+    </div>
+
+    <div id="courses" class="cards">
+        <div class="card" onclick="openCourse('Python', 'Learn Python from basics to advanced.')">
+            <img src="https://img.icons8.com/color/96/python--v1.png" alt="Python">
+            <h3>Python</h3>
+        </div>
+        <div class="card" onclick="openCourse('JavaScript', 'Build interactive web apps with JS.')">
+            <img src="https://img.icons8.com/color/96/javascript--v1.png" alt="JS">
+            <h3>JavaScript</h3>
+        </div>
+        <div class="card" onclick="openCourse('C Programming', 'Master C programming fundamentals.')">
+            <img src="https://img.icons8.com/color/96/c-programming.png" alt="C">
+            <h3>C Programming</h3>
+        </div>
+        <div class="card" onclick="openCourse('CSS', 'Create beautiful and responsive UI.')">
+            <img src="https://img.icons8.com/color/96/css3.png" alt="CSS">
+            <h3>CSS</h3>
+        </div>
+    </div>
+</div>
+
+<!-- Course Modal -->
+<div class="modal" id="courseModal">
+    <div class="modal-content">
+        <h3 id="courseTitle"></h3>
+        <p id="courseDesc"></p>
+        <button onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="container" id="loginContainer">
+    <div class="login-box">
+        <h2>Login to your account</h2>
+        <form id="loginForm">
+            <input type="text" id="userEmail" placeholder="Email or Mobile Number" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">LOGIN</button>
+        </form>
+        <div class="links">
+            <p>Forgot password? <a href="#">Reset</a></p>
+            <p>Need help? <a href="#">Support</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+let loggedIn = false;
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const email = document.getElementById("userEmail").value;
+    if(email) {
+        loggedIn = true;
+        alert("Logged in with: " + email);
+        document.getElementById('loginContainer').style.display = 'none';
+    }
+});
+
+function openCourse(title, desc) {
+    if(!loggedIn) {
+        // Blink "Enter your Gmail first"
+        const modal = document.getElementById('courseModal');
+        const content = modal.querySelector('.modal-content');
+        document.getElementById('courseTitle').innerText = "Enter your Gmail first!";
+        document.getElementById('courseDesc').innerText = "";
+        modal.style.display = 'flex';
+        content.style.animation = 'blink 0.6s 3';
+        setTimeout(() => {
+            modal.style.display = 'none';
+            content.style.animation = 'none';
+        }, 1800);
+        return;
+    }
+    document.getElementById('courseTitle').innerText = title;
+    document.getElementById('courseDesc').innerText = desc;
+    document.getElementById('courseModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('courseModal').style.display = 'none';
+}
+
+function openLogin() {
+    document.getElementById('loginContainer').style.display = 'flex';
+}
+
+// Close modals on outside click
+window.onclick = function(e) {
+    const courseModal = document.getElementById('courseModal');
+    const loginContainer = document.getElementById('loginContainer');
+    if (e.target == courseModal) courseModal.style.display = "none";
+    if (e.target == loginContainer) loginContainer.style.display = "none";
+}
+</script>
+
+</body>
+</html>
